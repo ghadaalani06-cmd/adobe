@@ -1,0 +1,596 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#183d30">
+<title>Creative Studio</title>
+<style>
+:root {
+  --green:#246b4b;
+  --dark:#183d30;
+  --mint:#e8f2eb;
+  --bg:#f5f7f5;
+  --line:#e2e9e4;
+  --muted:#7b8980;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:#24342a;
+  font-family:Arial,Helvetica,sans-serif;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;background:var(--dark);color:white;
+  padding:22px 15px;display:flex;flex-direction:column;
+  flex-shrink:0;
+}
+.brand{font-size:20px;font-weight:bold;padding:5px 9px 30px}
+.brand span{color:#9bd1aa}
+.nav-label{
+  font-size:10px;letter-spacing:1.5px;
+  color:#a4bbae;margin:12px 10px;
+}
+.nav button{
+  width:100%;border:0;background:transparent;
+  color:#c9d8cd;text-align:left;padding:12px;
+  border-radius:8px;margin-bottom:4px;
+  display:flex;gap:12px;align-items:center;
+}
+.nav button:hover,.nav button.active{
+  background:#2b5740;color:white;
+}
+.sidebar-bottom{margin-top:auto;font-size:11px;color:#a9c3b2}
+.main{flex:1;min-width:0}
+.topbar{
+  height:65px;background:white;border-bottom:1px solid var(--line);
+  padding:0 25px;display:flex;align-items:center;
+  justify-content:space-between;
+}
+.topbar strong{font-size:14px}
+.actions{display:flex;gap:8px;align-items:center}
+.btn{
+  border:1px solid var(--line);background:white;
+  color:var(--dark);padding:10px 13px;border-radius:7px;
+  font-size:12px;
+}
+.btn.primary{background:var(--green);color:white;border-color:var(--green)}
+.btn:hover{opacity:.85}
+.content{padding:28px;max-width:1300px;margin:auto}
+.hero{
+  padding:35px;background:#e8f2eb;border-radius:15px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.hero h1{font-size:36px;margin:10px 0}
+.hero p{color:#62766a;max-width:470px;line-height:1.6;font-size:13px}
+.hero-art{
+  width:145px;height:155px;border-radius:12px;
+  background:linear-gradient(145deg,#c7dfcc,#467c58);
+  display:grid;place-items:center;color:white;font-size:55px;
+  margin-right:30px;
+}
+h2{font-size:17px;margin:27px 0 14px}
+.tools{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+}
+.tool{
+  border:1px solid var(--line);background:white;
+  padding:18px;border-radius:10px;text-align:left;
+  color:var(--dark);
+}
+.tool:hover{border-color:#8eb99a}
+.tool .symbol{font-size:25px;margin-bottom:12px}
+.tool b{display:block;font-size:13px}
+.tool small{display:block;color:var(--muted);margin-top:7px;line-height:1.5}
+.section-head{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;flex-wrap:wrap;
+}
+.search{border:1px solid var(--line);padding:9px;border-radius:7px}
+.projects{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.project{
+  background:white;border:1px solid var(--line);
+  padding:12px;border-radius:9px;min-width:0;
+}
+.project button{border:0;background:none;color:inherit}
+.project-thumb{
+  height:100px;background:var(--mint);border-radius:7px;
+  display:grid;place-items:center;font-size:30px;overflow:hidden;
+}
+.project-thumb img{width:100%;height:100%;object-fit:cover}
+.project-name{font-size:12px;font-weight:bold;margin-top:10px;overflow-wrap:anywhere}
+.project-meta{font-size:10px;color:var(--muted);margin-top:5px}
+.project-actions{display:flex;justify-content:space-between;margin-top:8px}
+.editor{padding:25px}
+.editor-title{display:flex;align-items:center;gap:10px}
+.editor-title h1{font-size:21px}
+.editor-toolbar{
+  margin:18px 0;background:white;border:1px solid var(--line);
+  border-radius:8px;padding:10px;display:flex;
+  justify-content:space-between;gap:10px;flex-wrap:wrap;
+}
+.editor-toolbar input{border:0;outline:0;font-weight:bold;min-width:100px}
+.workbench{
+  display:grid;grid-template-columns:210px 1fr;
+  min-height:500px;background:white;border:1px solid var(--line);
+  border-radius:9px;overflow:hidden;
+}
+.properties{
+  padding:16px;border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:10px;
+}
+.properties label{font-size:11px;color:#637369;margin-top:8px}
+.properties input,.properties textarea,.properties select{
+  width:100%;padding:8px;border:1px solid var(--line);
+  border-radius:6px;font-size:12px;
+}
+.properties input[type=color]{height:38px;padding:3px}
+.properties textarea{min-height:85px}
+.canvas-area{
+  background:#e9ede9;display:grid;place-items:center;
+  padding:20px;overflow:auto;min-width:0;
+}
+canvas{
+  max-width:100%;height:auto;background:white;
+  box-shadow:0 4px 20px #0001;touch-action:none;
+}
+.preview{max-width:100%;max-height:450px}
+.preview img,.preview video{max-width:100%;max-height:450px}
+.preview iframe{width:100%;height:450px;border:0}
+.empty{
+  text-align:center;color:var(--muted);
+  padding:35px;font-size:12px;line-height:1.8
+}
+.hidden{display:none!important}
+.mobile-menu{display:none}
+.status{font-size:10px;color:var(--muted);margin-top:12px}
+.toast{
+  position:fixed;bottom:20px;left:50%;
+  transform:translateX(-50%);background:var(--dark);
+  color:white;padding:12px 18px;border-radius:8px;
+  font-size:12px;z-index:10;
+}
+@media(max-width:850px){
+  .sidebar{width:210px}
+  .tools{grid-template-columns:repeat(2,1fr)}
+  .projects{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:600px){
+  .sidebar{
+    position:fixed;z-index:5;left:-260px;top:0;bottom:0;
+    transition:left .2s;width:245px;
+  }
+  .sidebar.open{left:0}
+  .mobile-menu{display:inline-block}
+  .topbar{padding:0 12px}
+  .content,.editor{padding:15px}
+  .hero{padding:22px}
+  .hero h1{font-size:27px}
+  .hero-art{display:none}
+  .tools{grid-template-columns:1fr}
+  .projects{grid-template-columns:repeat(2,1fr)}
+  .workbench{grid-template-columns:1fr}
+  .properties{border-right:0;border-bottom:1px solid var(--line)}
+  .canvas-area{min-height:320px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand">✦ Creative <span>Studio</span></div>
+  <div class="nav-label">WORKSPACE</div>
+  <nav class="nav" id="navigation"></nav>
+  <div class="sidebar-bottom">
+    <p>● Private workspace</p>
+    <p>Projects stored locally in this browser.</p>
+    <p>Version 1.0</p>
+  </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div>
+    <button class="btn mobile-menu" onclick="toggleMenu()">☰</button>
+    <strong id="breadcrumb">Creative Studio / Workspace</strong>
+  </div>
+  <div class="actions">
+    <button class="btn" onclick="document.getElementById('importFile').click()">＋ Import</button>
+    <button class="btn primary" onclick="newProject()">＋ New project</button>
+    <input id="importFile" type="file" hidden accept="image/*,video/*,application/pdf" onchange="importFile(this.files[0])">
+  </div>
+</header>
+<div id="home" class="content">
+  <section class="hero">
+    <div>
+      <div style="color:#477b58;font-size:10px;letter-spacing:2px">YOUR CREATIVE SPACE</div>
+      <h1>Make something<br>beautiful.</h1>
+      <p>Your personal studio for image editing, vector artwork, video, PDF documents and graphic design.</p>
+      <button class="btn primary" onclick="newProject()">Create a project</button>
+    </div>
+    <div class="hero-art">✦</div>
+  </section>
+  <h2>Creative tools</h2>
+  <div class="tools" id="toolCards"></div>
+  <div class="section-head">
+    <h2>My projects</h2>
+    <input class="search" id="search" placeholder="Search projects..." oninput="renderProjects()">
+  </div>
+  <div class="projects" id="projects"></div>
+  <div class="status">Your projects are stored in this browser's local database. Export important work regularly.</div>
+</div>
+
+<section id="editor" class="editor hidden">
+  <button class="btn" onclick="goHome()">← All projects</button>
+  <div class="editor-title"><span id="editorIcon" style="font-size:25px"></span><h1 id="editorTitle">Studio</h1></div>
+  <div class="editor-toolbar">
+    <input id="projectName" placeholder="Project name" onchange="saveCurrent()">
+    <div class="actions">
+      <button class="btn" onclick="undo()">↶ Undo</button>
+      <button class="btn" onclick="redo()">↷ Redo</button>
+      <button class="btn" onclick="saveCurrent()">Save</button>
+      <button class="btn primary" onclick="exportProject()">Export</button>
+    </div>
+  </div>
+  <div class="workbench">
+    <aside class="properties">
+      <b>TOOLS & SETTINGS</b>
+      <label>Canvas background</label>
+      <input id="background" type="color" value="#ffffff" onchange="changeBackground(this.value)">
+      <label>Canvas size</label>
+      <select id="canvasSize" onchange="resizeCanvas()">
+        <option value="1200,800">1200 × 800</option>
+        <option value="1080,1080">1080 × 1080</option>
+        <option value="1920,1080">1920 × 1080</option>
+        <option value="1080,1920">1080 × 1920</option>
+      </select>
+      <label>Add elements</label>
+      <button class="btn" onclick="addShape('rect')">▭ Rectangle</button>
+      <button class="btn" onclick="addShape('circle')">◯ Circle</button>
+      <button class="btn" onclick="addText()">T Add text</button>
+      <label>Brush colour</label>
+      <input type="color" id="brushColor" value="#246b4b">
+      <label>Brush size</label>
+      <input type="range" id="brushSize" min="1" max="60" value="6">
+      <button class="btn" onclick="setMode('draw')">✎ Draw</button>
+      <button class="btn" onclick="setMode('select')">↖ Select / move</button>
+      <button class="btn" onclick="clearCanvas()">Clear canvas</button>
+      <label>Project notes</label>
+      <textarea id="notes" placeholder="Write project notes..." onchange="saveCurrent()"></textarea>
+      <div class="status" id="editorStatus">Local project</div>
+    </aside>
+    <div class="canvas-area" id="canvasArea">
+      <div class="preview hidden" id="mediaPreview"></div>
+      <canvas id="canvas" width="1200" height="800"></canvas>
+    </div>
+  </div>
+</section>
+</main>
+</div>
+<div id="toast" class="toast hidden"></div>
+
+<script>
+const modules = [
+  {id:'image',name:'Image Studio',icon:'🖼️',desc:'Photo editing and drawing'},
+  {id:'vector',name:'Vector Studio',icon:'✒️',desc:'Shapes and vector-style artwork'},
+  {id:'video',name:'Video Studio',icon:'🎬',desc:'Video import and preview'},
+  {id:'pdf',name:'PDF Studio',icon:'📄',desc:'PDF document viewing'},
+  {id:'design',name:'Design Studio',icon:'🎨',desc:'Posters and creative layouts'}
+];
+
+let db;
+let current=null;
+let mode='select';
+let history=[];
+let historyIndex=-1;
+let drawing=false;
+let lastPoint=null;
+let selectedElement=null;
+let elements=[];
+
+const canvas=document.getElementById('canvas');
+const ctx=canvas.getContext('2d');
+
+function toast(message){
+  const el=document.getElementById('toast');
+  el.textContent=message;
+  el.classList.remove('hidden');
+  setTimeout(()=>el.classList.add('hidden'),2500);
+}
+
+function toggleMenu(){document.getElementById('sidebar').classList.toggle('open')}
+
+function initDB(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open('CreativeStudioDB',1);
+    req.onupgradeneeded=()=>{
+      req.result.createObjectStore('projects',{keyPath:'id'});
+    };
+    req.onsuccess=()=>{db=req.result;resolve()};
+    req.onerror=()=>reject(req.error);
+  });
+}
+function allProjects(){
+  return new Promise((resolve,reject)=>{
+    const req=db.transaction('projects','readonly').objectStore('projects').getAll();
+    req.onsuccess=()=>resolve(req.result.sort((a,b)=>b.updated-a.updated));
+    req.onerror=()=>reject(req.error);
+  });
+}
+function putProject(p){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction('projects','readwrite');
+    tx.objectStore('projects').put(p);
+    tx.oncomplete=resolve;
+    tx.onerror=()=>reject(tx.error);
+  });
+}
+function deleteProject(id){
+  const tx=db.transaction('projects','readwrite');
+  tx.objectStore('projects').delete(id);
+  tx.oncomplete=()=>{renderProjects();toast('Project deleted')};
+}
+
+function setupNavigation(){
+  const nav=document.getElementById('navigation');
+  nav.innerHTML='<button class="active" onclick="goHome()">🏠 Workspace</button>';
+  modules.forEach(m=>{
+    nav.innerHTML+=`<button onclick="openModule('${m.id}')">${m.icon} ${m.name}</button>`;
+  });
+  document.getElementById('toolCards').innerHTML=modules.map(m=>`
+    <button class="tool" onclick="openModule('${m.id}')">
+      <div class="symbol">${m.icon}</div><b>${m.name}</b><small>${m.desc}</small>
+    </button>`).join('');
+}
+function goHome(){
+  document.getElementById('home').classList.remove('hidden');
+  document.getElementById('editor').classList.add('hidden');
+  document.getElementById('breadcrumb').textContent='Creative Studio / Workspace';
+  document.getElementById('sidebar').classList.remove('open');
+  current=null;
+  renderProjects();
+}
+function openModule(id){
+  const m=modules.find(x=>x.id===id);
+  document.getElementById('home').classList.add('hidden');
+  document.getElementById('editor').classList.remove('hidden');
+  document.getElementById('editorTitle').textContent=m.name;
+  document.getElementById('editorIcon').textContent=m.icon;
+  document.getElementById('breadcrumb').textContent='Creative Studio / '+m.name;
+  document.getElementById('sidebar').classList.remove('open');
+  current={id:crypto.randomUUID(),name:'Untitled '+m.name,type:id,background:'#ffffff',notes:'',elements:[],updated:Date.now()};
+  elements=[];
+  clearHistory();
+  document.getElementById('projectName').value=current.name;
+  document.getElementById('notes').value='';
+  document.getElementById('background').value='#ffffff';
+  showCanvas();
+  drawCanvas();
+  saveCurrent();
+}
+function newProject(){
+  openModule('design');
+}
+async function renderProjects(){
+  if(!db)return;
+  const q=(document.getElementById('search')?.value||'').toLowerCase();
+  const list=(await allProjects()).filter(p=>p.name.toLowerCase().includes(q));
+  document.getElementById('projects').innerHTML=list.length?list.map(p=>{
+    const m=modules.find(x=>x.id===p.type)||modules[4];
+    const thumb=p.type==='image'&&p.data?`<img src="${p.data}" alt="">`:m.icon;
+    return `<div class="project">
+      <button onclick="loadProject('${p.id}')" style="width:100%;text-align:left">
+        <div class="project-thumb">${thumb}</div>
+        <div class="project-name">${escapeHTML(p.name)}</div>
+        <div class="project-meta">${m.name}</div>
+      </button>
+      <div class="project-actions">
+        <button onclick="loadProject('${p.id}')">Open</button>
+        <button onclick="deleteProject('${p.id}')">🗑</button>
+      </div>
+    </div>`;
+  }).join(''):'<div class="empty">No projects yet.<br>Create a project or import a file.</div>';
+}
+function escapeHTML(s){
+  return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+async function loadProject(id){
+  const p=(await allProjects()).find(x=>x.id===id);
+  if(!p)return;
+  current=p;
+  elements=p.elements||[];
+  openEditorFor(p);
+}
+function openEditorFor(p){
+  const m=modules.find(x=>x.id===p.type)||modules[4];
+  document.getElementById('home').classList.add('hidden');
+  document.getElementById('editor').classList.remove('hidden');
+  document.getElementById('editorTitle').textContent=m.name;
+  document.getElementById('editorIcon').textContent=m.icon;
+  document.getElementById('breadcrumb').textContent='Creative Studio / '+m.name;
+  document.getElementById('projectName').value=p.name;
+  document.getElementById('notes').value=p.notes||'';
+  document.getElementById('background').value=p.background||'#ffffff';
+  elements=p.elements||[];
+  showCanvas();
+  if(p.data){
+    showMedia(p);
+  }else{
+    drawCanvas();
+  }
+  clearHistory();
+}
+function showCanvas(){
+  document.getElementById('canvas').classList.remove('hidden');
+  document.getElementById('mediaPreview').classList.add('hidden');
+}
+function showMedia(p){
+  const box=document.getElementById('mediaPreview');
+  const c=document.getElementById('canvas');
+  c.classList.add('hidden');
+  box.classList.remove('hidden');
+  if(p.type==='image')box.innerHTML=`<img src="${p.data}" alt="Imported image">`;
+  else if(p.type==='video')box.innerHTML=`<video controls src="${p.data}"></video>`;
+  else if(p.type==='pdf')box.innerHTML=`<iframe src="${p.data}" title="PDF preview"></iframe>`;
+}
+async function saveCurrent(){
+  if(!current)return;
+  current.name=document.getElementById('projectName').value||'Untitled project';
+  current.notes=document.getElementById('notes').value;
+  current.background=document.getElementById('background').value;
+  current.elements=elements;
+  current.updated=Date.now();
+  await putProject(current);
+  document.getElementById('editorStatus').textContent='✓ Saved locally';
+  renderProjects();
+}
+function changeBackground(color){
+  if(!current)return;
+  current.background=color;
+  drawCanvas();
+  saveCurrent();
+}
+function resizeCanvas(){
+  const [w,h]=document.getElementById('canvasSize').value.split(',').map(Number);
+  canvas.width=w;canvas.height=h;
+  drawCanvas();
+}
+function drawCanvas(){
+  if(!current)return;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle=current.background||'#ffffff';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  elements.forEach((el,i)=>{
+    ctx.fillStyle=el.color||'#246b4b';
+    if(el.type==='rect')ctx.fillRect(el.x,el.y,el.w,el.h);
+    if(el.type==='circle'){
+      ctx.beginPath();ctx.arc(el.x,el.y,el.r,0,Math.PI*2);ctx.fill();
+    }
+    if(el.type==='text'){
+      ctx.font=`${el.size||48}px Arial`;
+      ctx.fillText(el.text,el.x,el.y);
+    }
+    if(el.type==='line'){
+      ctx.strokeStyle=el.color;ctx.lineWidth=el.size;
+      ctx.beginPath();ctx.moveTo(el.x,el.y);ctx.lineTo(el.x2,el.y2);ctx.stroke();
+    }
+  });
+}
+function addShape(type){
+  if(!current)return;
+  pushHistory();
+  const color=document.getElementById('brushColor').value;
+  if(type==='rect')elements.push({type:'rect',x:100,y:100,w:180,h:110,color});
+  if(type==='circle')elements.push({type:'circle',x:250,y:250,r:65,color});
+  drawCanvas();saveCurrent();
+}
+function addText(){
+  if(!current)return;
+  const text=prompt('Enter your text:');
+  if(!text)return;
+  pushHistory();
+  elements.push({type:'text',x:100,y:150,text,color:document.getElementById('brushColor').value,size:48});
+  drawCanvas();saveCurrent();
+}
+function setMode(m){
+  mode=m;
+  toast(m==='draw'?'Drawing mode enabled':'Select mode enabled');
+}
+function point(e){
+  const r=canvas.getBoundingClientRect();
+  return {x:(e.clientX-r.left)*canvas.width/r.width,y:(e.clientY-r.top)*canvas.height/r.height};
+}
+canvas.addEventListener('pointerdown',e=>{
+  if(!current||mode!=='draw')return;
+  pushHistory();
+  drawing=true;
+  lastPoint=point(e);
+  canvas.setPointerCapture(e.pointerId);
+});
+canvas.addEventListener('pointermove',e=>{
+  if(!drawing)return;
+  const p=point(e);
+  const color=document.getElementById('brushColor').value;
+  const size=Number(document.getElementById('brushSize').value);
+  ctx.strokeStyle=color;ctx.lineWidth=size;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(lastPoint.x,lastPoint.y);ctx.lineTo(p.x,p.y);ctx.stroke();
+  elements.push({type:'line',x:lastPoint.x,y:lastPoint.y,x2:p.x,y2:p.y,color,size});
+  lastPoint=p;
+});
+canvas.addEventListener('pointerup',()=>{if(drawing){drawing=false;saveCurrent()}});
+canvas.addEventListener('pointercancel',()=>drawing=false);
+
+function clearCanvas(){
+  if(!current)return;
+  if(!confirm('Clear all canvas elements?'))return;
+  pushHistory();elements=[];drawCanvas();saveCurrent();
+}
+function pushHistory(){
+  history=history.slice(0,historyIndex+1);
+  history.push(JSON.stringify(elements));
+  historyIndex++;
+}
+function clearHistory(){history=[];historyIndex=-1;pushHistory()}
+function undo(){
+  if(historyIndex<=0)return;
+  historyIndex--;
+  elements=JSON.parse(history[historyIndex]);
+  drawCanvas();saveCurrent();
+}
+function redo(){
+  if(historyIndex>=history.length-1)return;
+  historyIndex++;
+  elements=JSON.parse(history[historyIndex]);
+  drawCanvas();saveCurrent();
+}
+async function importFile(file){
+  if(!file)return;
+  const type=file.type.startsWith('image/')?'image':file.type.startsWith('video/')?'video':file.type==='application/pdf'?'pdf':null;
+  if(!type){toast('Please choose an image, video or PDF.');return}
+  const reader=new FileReader();
+  reader.onload=async()=>{
+    current={id:crypto.randomUUID(),name:file.name,type,data:reader.result,background:'#ffffff',elements:[],notes:'',updated:Date.now()};
+    elements=[];
+    openEditorFor(current);
+    await saveCurrent();
+    toast('File imported and saved locally.');
+  };
+  reader.readAsDataURL(file);
+}
+function exportProject(){
+  if(!current)return;
+  if(current.data){
+    const a=document.createElement('a');
+    a.href=current.data;
+    a.download=current.name||'creative-file';
+    a.click();
+    return;
+  }
+  const blob=new Blob([JSON.stringify({...current,elements},null,2)],{type:'application/json'});
+  downloadBlob(blob,(current.name||'project')+'.json');
+}
+function downloadBlob(blob,name){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=name;a.click();
+  URL.revokeObjectURL(url);
+}
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){
+    e.preventDefault();saveCurrent();
+  }
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){
+    e.preventDefault();undo();
+  }
+});
+(async()=>{
+  setupNavigation();
+  try{await initDB();await renderProjects()}
+  catch(e){toast('Browser storage could not be opened.')}
+})();
+</script>
+</body>
+</html>
